@@ -154,9 +154,15 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
+Ricardo Hincapié - [Github](https://github.com/ricarhincapie) / [Twitter](https://twitter.com/RicarHincapie)
+
+Santiago Efraín Martínez - [Github](https://github.com/Cholado) / [Twitter](https://twitter.com/choladito)
+
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
+
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Second part of Airbnb: Joann Vuong
+
 ## License
 Public Domain. No copy write protection. 

@@ -26,7 +26,8 @@ def stats():
     """Returns the stats for our application"""
     dic = {}
     for key, value in classes.items():
-        dic[key] = storage.count(value)
-        #if tmp > 0:
-        #    dic[key] = tmp
+        tmp = storage.count(value)
+        #dic[key] = tmp
+        if tmp > 0:
+            dic[key] = tmp
     return jsonify(dic)

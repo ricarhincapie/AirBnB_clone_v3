@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """Module to start a Flask web app application"""
 
-from flask import Flask, Blueprint, render_template, url_for
+from flask import Flask, Blueprint, render_template
+from flask import url_for, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 import os
@@ -17,6 +18,12 @@ app.register_blueprint(app_views)
 def tear_down(exception):
     """Manages app.teardown_appcontext"""
     storage.close()
+
+
+@app.errorhandler(404)
+def error_notFound(error):
+    """Handles Not Found error"""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":

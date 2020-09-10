@@ -67,7 +67,7 @@ def update_city(city_id):
         abort(400, 'Not a JSON')
     current_city = storage.get(City, city_id)
     if current_city is None:
-        abort(404, 'Not a JSON')
+        abort(404)
     for key, value in requ.items():
         if key in ['id', 'state_id', 'created_at', 'updated_at']:
             pass

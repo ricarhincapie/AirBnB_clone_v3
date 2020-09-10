@@ -53,6 +53,7 @@ def create_city(state_id):
     elif "name" not in box.keys():
         abort(400, 'Missing name')
     new_city = City(**box)
+    new_city.state_id = state_id
     storage.new(new_city)
     storage.save()
     return jsonify(new_city.to_dict()), 201

@@ -39,7 +39,7 @@ def state_delete(state_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/state', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def state_create():
     """Route to handle /states POST"""
     box = request.get_json(silent=True)
@@ -48,13 +48,13 @@ def state_create():
     elif 'name' not in box.keys():
         abort(400, 'Missing name')
     else:
-        new_state = State(box)
+        new_state = State(**box)
         storage.new(new_state)
         storage.save()
-        return make_response(jsonify(new_state.to_dict(), 201))
+        return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/state/<string:state_id>', methods=['PUT'],
+@app_views.route('/states/<string:state_id>', methods=['PUT'],
                  strict_slashes=False)
 def state_update(state_id=None):
     """Route to handle /states/id PUT"""
@@ -65,7 +65,7 @@ def state_update(state_id=None):
     if current_state is None:
         abort(404)
     else:
-        for key, value in box.item():
+        for key, value in box.items():
             if key in ['id', 'created_at', 'updated_at']:
                 pass
             else:

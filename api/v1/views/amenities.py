@@ -45,9 +45,9 @@ def create_amenitie():
     """Route to handle /amenities POST """
     requ = request.get_json(silent=True)
     if not requ:
-        abort(400, 'Not a JSON')
+        make_response(jsonify({'error': 'Not a JSON'}), 400)
     if not requ.get("name"):
-        abort(400, 'Missing name')
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     else:
         new_amenitie = Amenity(**requ)
         storage.new(new_amenitie)
@@ -61,7 +61,7 @@ def update_amenitie(amenity_id):
     """Route to handle /amenities/id PUT """
     requ = request.get_json(silent=True)
     if not requ:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     box = storage.get(Amenity, amenity_id)
     if not box:
         abort(404)
@@ -70,5 +70,5 @@ def update_amenitie(amenity_id):
             if key in ['id', 'created_at', 'updated_at']:
                 pass
             setattr(box, key, value)
-        storage.save()
+        box.save()
         return jsonify(box.to_dict()), 200

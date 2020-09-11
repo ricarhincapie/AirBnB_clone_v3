@@ -52,8 +52,12 @@ def create_city(state_id):
         abort(400, 'Not a JSON')
     elif "name" not in box.keys():
         abort(400, 'Missing name')
-    new_city = City(**box)
-    new_city.state_id = state_id
+    state_exist = storage.get(State, state_id)
+    if state_exist is None:
+        abort(404, 'Not found')
+    else:
+        new_city = City(**box)
+        new_city.state_id = state_id
     storage.new(new_city)
     storage.save()
     return jsonify(new_city.to_dict()), 201

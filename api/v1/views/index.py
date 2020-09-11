@@ -12,12 +12,15 @@ from models.user import User
 from models.amenity import Amenity
 
 classes = {"Amenity": "amenities", "City": "cities",
-           "Place": "places", "Review": "reviews", "State": "states", "User": "users"}
+           "Place": "places", "Review": "reviews",
+           "State": "states", "User": "users"}
+
 
 @app_views.route('/status', strict_slashes=False)
 def status():
     """Manages /status routing"""
     return jsonify({"status": "OK"})
+
 
 @app_views.route('/stats', strict_slashes=False)
 def stats():

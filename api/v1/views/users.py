@@ -25,14 +25,14 @@ def get_all_users():
                 strict_slashes=False)
 def get_spec_user(user_id):
     """ gets an specific user by the user id given"""
-    box = storage.get('User', user_id)
+    box = storage.get(User, user_id)
     if box is None:
         abort(404)
     else:
         return jsonify(box.to_dict())
 
 
-@app_views.route('/users/<user_id>', 
+@app_views.route('/users/<user_id>',
                 methods=['DELETE'],
                 strict_slashes=False)
 def delete_user(user_id):
@@ -46,7 +46,7 @@ def delete_user(user_id):
     return jsonify({}), 200
 
 
-@app_views.route('/users', 
+@app_views.route('/users',
                 methods=['POST'],
                 strict_slashes=False)
 def post_user():
@@ -63,7 +63,7 @@ def post_user():
     return jsonify(create_user.to_dict()), 201
 
 
-@app_views.route('/users/<user_id>', 
+@app_views.route('/users/<user_id>',
                 methods=['PUT'],
                 strict_slashes=False)
 def put_user(user_id=None):
@@ -78,6 +78,6 @@ def put_user(user_id=None):
     else:
         for key in my_dict.keys():
             if key not in ignore:
-                setattr(user, key, my_dict[key])
+                setattr(box, key, my_dict[key])
         box.save()
         return jsonify(box.to_dict())

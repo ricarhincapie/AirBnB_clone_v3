@@ -1,4 +1,4 @@
-api/v1/views/places.py#!/usr/bin/python3
+#!/usr/bin/python3
 """
 Module - User view RESTful API
 """
@@ -53,17 +53,32 @@ def post_place(city_id):
     """Route to handle /cities/<city_id>/places POST"""
     requ = request.get_json()
     if not requ:
-        abort('Not a JSON', 400)
+        abort(400, 'Not a JSON')
     if not requ.get('user_id'):
-        abort('Missing user_id', 400)
+        abort(400, 'Missing user_id')
     if not requ.get('name'):
-        abort('Missing name', 400)
+        abort(400, 'Missing name')
     box = storage.get(City, city_id)
     if box is None:
         abort(404)
     new_place = Place(**requ)
     storage.new(new_place)
     storage.save()
-    return jsonify(new_place.to_dict())
+    return jsonify(new_place.to_dict()), 201
 
 
+@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
+def upload_places(place_id):
+    """Route to handle /places/<place_id>/places PUT"""
+    requ = request.get_json()
+    if not requ:
+        abort(400, 'Not a JSON')
+    box = storage.get(Place, place_id)
+    if not box:
+        abort(404)
+    for key, value in requ.items():
+        if key in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+            pass
+        setattr(box, key, value)
+        storage.save()
+    return jsonify(box.to_dict()), 200

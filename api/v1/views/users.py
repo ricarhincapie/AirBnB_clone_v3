@@ -10,8 +10,8 @@ from models.user import User
 
 
 @app_views.route('/users',
-                methods=['GET'],
-                strict_slashes=False)
+                 methods=['GET'],
+                 strict_slashes=False)
 def get_all_users():
     """ display all users"""
     my_list = []
@@ -21,8 +21,8 @@ def get_all_users():
 
 
 @app_views.route('/users/<user_id>',
-                methods=['GET'],
-                strict_slashes=False)
+                 methods=['GET'],
+                 strict_slashes=False)
 def get_spec_user(user_id):
     """ gets an specific user by the user id given"""
     box = storage.get(User, user_id)
@@ -33,8 +33,8 @@ def get_spec_user(user_id):
 
 
 @app_views.route('/users/<user_id>',
-                methods=['DELETE'],
-                strict_slashes=False)
+                 methods=['DELETE'],
+                 strict_slashes=False)
 def delete_user(user_id):
     """ delete user using the id given """
     box = storage.get(User, user_id)
@@ -47,8 +47,8 @@ def delete_user(user_id):
 
 
 @app_views.route('/users',
-                methods=['POST'],
-                strict_slashes=False)
+                 methods=['POST'],
+                 strict_slashes=False)
 def post_user():
     """ upload a new user """
     my_dict = request.get_json()
@@ -64,8 +64,8 @@ def post_user():
 
 
 @app_views.route('/users/<user_id>',
-                methods=['PUT'],
-                strict_slashes=False)
+                 methods=['PUT'],
+                 strict_slashes=False)
 def put_user(user_id=None):
     """ updates user by id with given information """
     ignore = ['id', 'email', 'created_at', 'updated_at']
@@ -80,4 +80,4 @@ def put_user(user_id=None):
             if key not in ignore:
                 setattr(box, key, my_dict[key])
         box.save()
-        return jsonify(box.to_dict())
+        return jsonify(box.to_dict()) 200

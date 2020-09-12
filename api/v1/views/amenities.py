@@ -45,7 +45,7 @@ def create_amenitie():
     """Route to handle /amenities POST """
     requ = request.get_json(silent=True)
     if not requ:
-        make_response(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if not requ.get("name"):
         return make_response(jsonify({'error': 'Missing name'}), 400)
     else:

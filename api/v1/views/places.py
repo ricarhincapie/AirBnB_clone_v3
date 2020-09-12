@@ -8,6 +8,7 @@ from flask import jsonify, abort, request, make_response
 from models import storage
 from models.city import City
 from models.place import Place
+from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False)
@@ -58,10 +59,14 @@ def post_place(city_id):
         abort(400, 'Missing user_id')
     if not requ.get('name'):
         abort(400, 'Missing name')
+    validate_user = storage.get(User, requ.get('user_id'))
+    if not validate_user:
+        abort(404)
     box = storage.get(City, city_id)
     if box is None:
         abort(404)
     new_place = Place(**requ)
+    setattr(new_place, "city_id", city_id)
     storage.new(new_place)
     storage.save()
     return jsonify(new_place.to_dict()), 201

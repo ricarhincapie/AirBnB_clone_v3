@@ -80,4 +80,4 @@ def put_user(user_id=None):
             if key not in ignore:
                 setattr(box, key, my_dict[key])
         box.save()
-        return jsonify(box.to_dict()) 200
+        return jsonify(box.to_dict()), 200

@@ -59,6 +59,7 @@ def post_user():
     elif 'password' not in my_dict:
         abort(400, 'Missing password')
     create_user = User(**my_dict)
+    create_user.new()
     create_user.save()
     return jsonify(create_user.to_dict()), 201
 

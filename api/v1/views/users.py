@@ -72,7 +72,7 @@ def put_user(user_id=None):
     ignore = ['id', 'email', 'created_at', 'updated_at']
     my_dict = request.get_json()
     if my_dict is None:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     box = storage.get(User, user_id)
     if box is None:
         abort(404)

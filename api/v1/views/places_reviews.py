@@ -11,7 +11,7 @@ from models.place import Place
 from models.user import User
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['get'],
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
 def get_review_by_place(place_id):
     """ get json of the reviews linke to the place given"""
@@ -64,14 +64,15 @@ def post_review(place_id):
         abort(400, 'Missing text')
     elif 'user_id' not in review_text:
         abort(400, 'Missing user_id')
-    elif review_text.get('user_id') and place_exist:
+    elif not storage.get(User, review_text.get('user_id')):
+        abort(404)
+    elif place_exist:
         new_review = Review(**review_text)
         new_review.place_id = place_id
         storage.new(new_review)
         storage.save()
         return jsonify(new_review.to_dict()), 201
-    abort(404, 'sfsfsdfsdfd')
-
+    abort(404)
 
 @app_views.route('/reviews/<review_id>',
                  methods=['PUT'],
@@ -80,6 +81,8 @@ def put_review(review_id):
     """ updates a review based on its id given """
     ignore = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
     my_dict = request.get_json()
+    if not my_dict:
+        abort(400, 'Not a JSON')
     box = storage.get(Review, review_id)
     if box is None:
         abort(404)
